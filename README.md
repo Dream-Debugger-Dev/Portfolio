@@ -9,7 +9,7 @@ A static portfolio website for Anshik Kewat.
 - `assets/js/script.js` — interactive page behavior, animations, and form handling.
 - `assets/images/` — portfolio images and project thumbnails.
 - `assets/files/` — downloadable files such as the CV.
-- `favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` — browser favicons.
+- `assets/favicons/` — browser favicon assets (`favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png`, `favicon-512x512.png`).
 
 ## Deploy
 
