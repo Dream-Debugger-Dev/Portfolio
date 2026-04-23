@@ -1536,11 +1536,18 @@ button:focus {
 
 .github-stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: 2fr 2fr 1.4fr;
+    align-items: stretch;
     gap: 24px;
     margin-bottom: 60px;
     position: relative;
     z-index: 2;
+}
+
+@media (max-width: 992px) {
+    .github-stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 .github-card {
@@ -1551,6 +1558,9 @@ button:focus {
     transition: var(--transition);
     overflow: hidden;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .github-card::before {
@@ -1580,6 +1590,7 @@ button:focus {
     display: block;
     position: relative;
     z-index: 2;
+    width: 100%;
 }
 
 .github-card img {
@@ -1589,10 +1600,16 @@ button:focus {
     border-radius: 8px;
 }
 
-.github-streak {
-    grid-column: 1 / -1;
-    max-width: 600px;
-    margin: 0 auto;
+/* .github-streak: no special desktop styles — shares the row with the other two cards.
+   On tablet (<=992px) it spans both columns; see media query below. */
+
+@media (max-width: 992px) {
+    .github-streak {
+        grid-column: 1 / -1;
+        max-width: 600px;
+        margin: 0 auto;
+        width: 100%;
+    }
 }
 
 /* GitHub Activities */
