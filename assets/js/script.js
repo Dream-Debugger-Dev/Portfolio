@@ -387,17 +387,23 @@ function typewrite() {
 typewrite();
 
 // ===== PARALLAX HERO LAYERS =====
-// Horizontal drift is handled by pure CSS (background-position keyframes).
-// JS only applies gentle VERTICAL parallax tied to scroll + mouse Y,
-// so it stacks with CSS drift without fighting it.
+// CSS handles horizontal drift (background-position keyframes).
+// JS adds gentle vertical parallax on scroll + mouse Y.
+// Performance: uses rAF, stops once hero is out of view.
 const heroLayers = document.querySelectorAll('.hero-layer');
 const heroSection = document.querySelector('.hero-section');
 
 let mouseParallaxY = 0;
+let parallaxTicking = false;
 
 function applyHeroParallax() {
+    parallaxTicking = false;
+    if (!heroSection) return;
+    const rect = heroSection.getBoundingClientRect();
+    // Stop processing if hero is fully off-screen
+    if (rect.bottom < 0) return;
+
     const scrollY = window.scrollY;
-    // Only apply parallax while the hero is in view-ish range (first ~120vh)
     const maxScroll = window.innerHeight * 1.2;
     const clamped = Math.min(scrollY, maxScroll);
     heroLayers.forEach(layer => {
@@ -407,22 +413,40 @@ function applyHeroParallax() {
     });
 }
 
-window.addEventListener('scroll', applyHeroParallax, { passive: true });
+function requestParallax() {
+    if (!parallaxTicking) {
+        parallaxTicking = true;
+        requestAnimationFrame(applyHeroParallax);
+    }
+}
+
+window.addEventListener('scroll', requestParallax, { passive: true });
 
 if (heroSection) {
     heroSection.addEventListener('mousemove', (e) => {
         const rect = heroSection.getBoundingClientRect();
         mouseParallaxY = (e.clientY - rect.top) / rect.height - 0.5;
-        applyHeroParallax();
+        requestParallax();
     });
     heroSection.addEventListener('mouseleave', () => {
         mouseParallaxY = 0;
-        applyHeroParallax();
+        requestParallax();
     });
 }
 
+// ===== PAUSE PARTICLE CANVAS WHEN OFF-SCREEN =====
+// The particle canvas is a perf hog during scroll. Pause it once hero is gone.
+const particleCanvas = document.getElementById('particleCanvas');
+if (particleCanvas && heroSection) {
+    const canvasObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            particleCanvas.style.display = entry.isIntersecting ? '' : 'none';
+        });
+    }, { threshold: 0 });
+    canvasObserver.observe(heroSection);
+}
+
 // ===== HUD RAIL SCROLL SPY =====
-// Highlight the left-rail link whose section is currently in view.
 const railLinks = document.querySelectorAll('.rail-link[data-section]');
 if (railLinks.length) {
     const sectionMap = new Map();

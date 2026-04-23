@@ -206,94 +206,104 @@ img { max-width: 100%; display: block; }
 
 .hero-layer {
     position: absolute;
-    inset: -5% -10%;           /* slight overscan so drift doesn't expose edges */
-    background-size: cover;
-    background-position: center;
+    inset: -5% -10%;
     will-change: transform;
-    transition: transform 0.1s linear;
+    contain: layout style;
 }
 
-/* ===== Drift keyframes (right-to-left, like the reference) ===== */
-@keyframes drift-slow   { from { background-position-x: 0%;   } to { background-position-x: -100%; } }
-@keyframes drift-medium { from { background-position-x: 0%;   } to { background-position-x: -200%; } }
-@keyframes drift-fast   { from { background-position-x: 0%;   } to { background-position-x: -300%; } }
-@keyframes drift-hyper  { from { background-position-x: 0%;   } to { background-position-x: -500%; } }
+/* ===== Drift keyframes ===== */
+@keyframes drift-slow   { from { background-position-x: 0;      } to { background-position-x: -3000px; } }
+@keyframes drift-medium { from { background-position-x: 0;      } to { background-position-x: -4000px; } }
+@keyframes drift-fast   { from { background-position-x: 0;      } to { background-position-x: -5000px; } }
+@keyframes drift-hyper  { from { background-position-x: 0;      } to { background-position-x: -6000px; } }
 
-.hero-layer[data-drift="slow"]   { animation: drift-slow   180s linear infinite; }
-.hero-layer[data-drift="medium"] { animation: drift-medium 90s  linear infinite; }
-.hero-layer[data-drift="fast"]   { animation: drift-fast   45s  linear infinite; }
-.hero-layer[data-drift="hyper"]  { animation: drift-hyper  22s  linear infinite; }
+.hero-layer[data-drift="slow"]   { animation: drift-slow   200s linear infinite; }
+.hero-layer[data-drift="medium"] { animation: drift-medium 100s linear infinite; }
+.hero-layer[data-drift="fast"]   { animation: drift-fast   50s  linear infinite; }
+.hero-layer[data-drift="hyper"]  { animation: drift-hyper  25s  linear infinite; }
 
-/* Layer 0 — deep space backdrop (static, no drift) */
+/* Layer 0 — deep space backdrop (static) */
 .layer-deep {
     background:
-        radial-gradient(ellipse at 50% 40%, rgba(16, 10, 32, 1) 0%, rgba(6, 6, 14, 1) 70%, rgba(3, 3, 8, 1) 100%);
+        radial-gradient(ellipse at 50% 40%, rgba(16, 10, 32, 1) 0%, rgba(6, 6, 14, 1) 70%, #030308 100%);
 }
 
-/* Layer 1 — slow large nebulae (barely moving) */
+/* Layer 1 — slow large nebulae (barely moving, very visible) */
 .layer-nebula {
     background-repeat: repeat-x;
-    background-size: 200% 100%;
+    background-size: 3000px 100%;
     background-image:
-        radial-gradient(ellipse 40% 30% at 15% 45%, rgba(139, 92, 246, 0.28) 0%, transparent 60%),
-        radial-gradient(ellipse 35% 25% at 55% 30%, rgba(0, 240, 255, 0.18)  0%, transparent 60%),
-        radial-gradient(ellipse 45% 35% at 85% 65%, rgba(255, 0, 229, 0.15)  0%, transparent 60%);
-    filter: blur(2px);
+        radial-gradient(ellipse 600px 400px at 400px 45%, rgba(139, 92, 246, 0.35) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 350px at 1500px 30%, rgba(0, 240, 255, 0.25) 0%, transparent 70%),
+        radial-gradient(ellipse 700px 450px at 2500px 60%, rgba(255, 0, 229, 0.2) 0%, transparent 70%);
 }
 
-/* Layer 2 — mid-distance star cluster + small planets */
+/* Layer 2 — star cluster + glowing planets */
 .layer-stars {
     background-repeat: repeat-x;
-    background-size: 200% 100%;
+    background-size: 4000px 100%;
     background-image:
-        /* small planets */
-        radial-gradient(circle 14px at 12% 28%, rgba(139, 92, 246, 0.55) 0%, rgba(139, 92, 246, 0.15) 60%, transparent 70%),
-        radial-gradient(circle 9px  at 68% 72%, rgba(0, 240, 255, 0.55)  0%, rgba(0, 240, 255, 0.15)  60%, transparent 70%),
-        radial-gradient(circle 6px  at 42% 18%, rgba(255, 0, 229, 0.45)  0%, transparent 70%),
-        /* distant stars */
-        radial-gradient(1.5px 1.5px at 20% 30%, rgba(0, 240, 255, 0.9),  transparent),
-        radial-gradient(1.5px 1.5px at 40% 70%, rgba(139, 92, 246, 0.8), transparent),
-        radial-gradient(1px 1px     at 60% 20%, rgba(255, 0, 229, 0.7),  transparent),
-        radial-gradient(1.5px 1.5px at 80% 50%, rgba(0, 240, 255, 0.6),  transparent),
-        radial-gradient(1px 1px     at 10% 80%, rgba(244, 114, 182, 0.7),transparent),
-        radial-gradient(1px 1px     at 90% 10%, rgba(0, 240, 255, 0.7),  transparent),
-        radial-gradient(1.5px 1.5px at 50% 50%, rgba(139, 92, 246, 0.5), transparent),
-        radial-gradient(1px 1px     at 30% 90%, rgba(255, 0, 229, 0.6),  transparent),
-        radial-gradient(1px 1px     at 70% 40%, rgba(0, 240, 255, 0.8),  transparent),
-        radial-gradient(1.5px 1.5px at 15% 55%, rgba(244, 114, 182, 0.5),transparent);
-    animation: drift-medium 90s linear infinite, twinkle 4s ease-in-out infinite alternate;
+        /* Planets — big, bright, with glow rings */
+        radial-gradient(circle 28px at 300px 200px,  rgba(139, 92, 246, 0.9) 0%, rgba(139, 92, 246, 0.3) 50%, transparent 70%),
+        radial-gradient(circle 20px at 1200px 400px, rgba(0, 240, 255, 0.85) 0%, rgba(0, 240, 255, 0.25) 50%, transparent 70%),
+        radial-gradient(circle 15px at 2200px 150px, rgba(255, 0, 229, 0.8)  0%, rgba(255, 0, 229, 0.2)  50%, transparent 70%),
+        radial-gradient(circle 35px at 3200px 350px, rgba(0, 240, 255, 0.7)  0%, rgba(0, 240, 255, 0.15) 50%, transparent 70%),
+        /* Planet glow halos */
+        radial-gradient(circle 60px at 300px 200px,  rgba(139, 92, 246, 0.15) 0%, transparent 70%),
+        radial-gradient(circle 45px at 1200px 400px, rgba(0, 240, 255, 0.12) 0%, transparent 70%),
+        radial-gradient(circle 40px at 2200px 150px, rgba(255, 0, 229, 0.1)  0%, transparent 70%),
+        radial-gradient(circle 70px at 3200px 350px, rgba(0, 240, 255, 0.08) 0%, transparent 70%),
+        /* Stars — scattered bright dots */
+        radial-gradient(2px 2px at 100px 100px,  rgba(255,255,255,0.9), transparent),
+        radial-gradient(2px 2px at 500px 300px,  rgba(0,240,255,0.9),   transparent),
+        radial-gradient(1px 1px at 800px 80px,   rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 1000px 450px, rgba(139,92,246,0.8),  transparent),
+        radial-gradient(1px 1px at 1400px 200px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(2px 2px at 1700px 380px, rgba(0,240,255,0.85),  transparent),
+        radial-gradient(1px 1px at 2000px 120px, rgba(255,0,229,0.7),   transparent),
+        radial-gradient(2px 2px at 2400px 480px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 2800px 250px, rgba(0,240,255,0.8),   transparent),
+        radial-gradient(2px 2px at 3500px 180px, rgba(139,92,246,0.85), transparent),
+        radial-gradient(1px 1px at 3800px 420px, rgba(255,255,255,0.7), transparent);
+    animation: drift-medium 100s linear infinite, twinkle 4s ease-in-out infinite alternate;
 }
 
 @keyframes twinkle { 0% { opacity: 0.7; } 100% { opacity: 1; } }
 
-/* Layer 3 — fast asteroids & debris */
+/* Layer 3 — fast asteroids & debris (bright, chunky) */
 .layer-asteroids {
     background-repeat: repeat-x;
-    background-size: 200% 100%;
+    background-size: 5000px 100%;
     background-image:
-        /* small bright asteroids as tiny glowing dots */
-        radial-gradient(3px 3px at 5% 35%,  rgba(0, 240, 255, 0.9),  transparent 70%),
-        radial-gradient(2px 2px at 22% 62%, rgba(255, 0, 229, 0.8),  transparent 70%),
-        radial-gradient(3px 3px at 38% 20%, rgba(139, 92, 246, 0.8), transparent 70%),
-        radial-gradient(2px 2px at 55% 85%, rgba(0, 240, 255, 0.9),  transparent 70%),
-        radial-gradient(3px 3px at 72% 40%, rgba(244, 114, 182, 0.8),transparent 70%),
-        radial-gradient(2px 2px at 88% 68%, rgba(0, 240, 255, 0.85), transparent 70%),
-        radial-gradient(2px 2px at 95% 15%, rgba(139, 92, 246, 0.7), transparent 70%);
+        /* Asteroids — visible glowing rocks */
+        radial-gradient(circle 8px at 200px 180px,  rgba(0, 240, 255, 0.9)  0%, rgba(0, 240, 255, 0.2)  60%, transparent 80%),
+        radial-gradient(circle 6px at 800px 350px,   rgba(255, 0, 229, 0.85) 0%, rgba(255, 0, 229, 0.15) 60%, transparent 80%),
+        radial-gradient(circle 10px at 1500px 120px, rgba(139, 92, 246, 0.9) 0%, rgba(139, 92, 246, 0.2) 60%, transparent 80%),
+        radial-gradient(circle 5px at 2100px 420px,  rgba(0, 240, 255, 0.85) 0%, transparent 70%),
+        radial-gradient(circle 7px at 2800px 250px,  rgba(244, 114, 182, 0.8) 0%, rgba(244, 114, 182, 0.15) 60%, transparent 80%),
+        radial-gradient(circle 9px at 3500px 380px,  rgba(0, 240, 255, 0.9)  0%, rgba(0, 240, 255, 0.2)  60%, transparent 80%),
+        radial-gradient(circle 6px at 4200px 150px,  rgba(139, 92, 246, 0.85) 0%, transparent 70%),
+        radial-gradient(circle 8px at 4700px 300px,  rgba(255, 0, 229, 0.8)  0%, rgba(255, 0, 229, 0.15) 60%, transparent 80%),
+        /* Asteroid glow trails */
+        radial-gradient(ellipse 30px 6px at 200px 180px,  rgba(0, 240, 255, 0.2) 0%, transparent 80%),
+        radial-gradient(ellipse 25px 5px at 1500px 120px, rgba(139, 92, 246, 0.15) 0%, transparent 80%),
+        radial-gradient(ellipse 28px 5px at 3500px 380px, rgba(0, 240, 255, 0.15) 0%, transparent 80%);
 }
 
-/* Layer 4 — hyper-speed streaks (near-camera shooting stars) */
+/* Layer 4 — hyper-speed streaks (shooting stars — longer, brighter) */
 .layer-streaks {
     background-repeat: repeat-x;
-    background-size: 200% 100%;
+    background-size: 6000px 100%;
     background-image:
-        /* thin horizontal light streaks */
-        linear-gradient(90deg, transparent 0%, rgba(0, 240, 255, 0.55) 50%, transparent 100%),
-        linear-gradient(90deg, transparent 0%, rgba(255, 0, 229, 0.4)  50%, transparent 100%),
-        linear-gradient(90deg, transparent 0%, rgba(139, 92, 246, 0.5) 50%, transparent 100%);
-    background-size: 180px 2px, 140px 2px, 220px 2px;
-    background-position: 10% 25%, 55% 60%, 30% 80%;
-    background-repeat: repeat-x;
-    opacity: 0.55;
+        /* Long bright streaks */
+        linear-gradient(175deg, transparent 0%, transparent 49%, rgba(0, 240, 255, 0.7) 49.5%, rgba(0, 240, 255, 0.7) 50%, transparent 50.5%, transparent 100%),
+        linear-gradient(172deg, transparent 0%, transparent 49%, rgba(255, 0, 229, 0.5) 49.5%, rgba(255, 0, 229, 0.5) 50%, transparent 50.5%, transparent 100%),
+        linear-gradient(178deg, transparent 0%, transparent 49%, rgba(139, 92, 246, 0.6) 49.5%, rgba(139, 92, 246, 0.6) 50%, transparent 50.5%, transparent 100%),
+        linear-gradient(174deg, transparent 0%, transparent 49%, rgba(0, 240, 255, 0.5) 49.5%, rgba(0, 240, 255, 0.5) 50%, transparent 50.5%, transparent 100%),
+        linear-gradient(176deg, transparent 0%, transparent 49%, rgba(255, 255, 255, 0.4) 49.5%, rgba(255, 255, 255, 0.4) 50%, transparent 50.5%, transparent 100%);
+    background-size: 400px 600px, 350px 500px, 500px 700px, 300px 550px, 450px 650px;
+    background-position: 200px 0, 1200px 50px, 2500px -30px, 3800px 20px, 5000px -10px;
+    opacity: 0.7;
 }
 
 /* Layer 5 — ambient bottom glow */
@@ -309,29 +319,29 @@ img { max-width: 100%; display: block; }
 .hero-ship {
     position: absolute;
     top: 22%;
-    left: -80px;
-    font-size: 22px;
+    left: -120px;
+    font-size: 32px;
     color: var(--neon-cyan);
-    text-shadow: 0 0 12px var(--neon-cyan), 0 0 24px rgba(0,240,255,0.5);
+    text-shadow: 0 0 18px var(--neon-cyan), 0 0 40px rgba(0,240,255,0.6);
     transform: rotate(-18deg);
     opacity: 0;
-    animation: ship-fly 24s ease-in-out infinite;
-    animation-delay: 6s;
+    animation: ship-fly 20s ease-in-out infinite;
+    animation-delay: 4s;
     pointer-events: none;
     will-change: transform, opacity;
+    z-index: 5;
 }
 
 .hero-ship::after {
-    /* trailing exhaust */
     content: '';
     position: absolute;
     top: 50%;
     right: 100%;
-    width: 80px;
-    height: 2px;
-    background: linear-gradient(to left, rgba(0,240,255,0.8), transparent);
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(to left, rgba(0,240,255,0.9), rgba(139,92,246,0.4), transparent);
     transform: translateY(-50%);
-    filter: blur(1px);
+    filter: blur(1.5px);
 }
 
 @keyframes ship-fly {
@@ -2198,9 +2208,7 @@ body.intro-active { overflow: hidden; }
 .hud-pill,
 .hud-avatar,
 .hud-rail {
-    background: rgba(10, 10, 15, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(10, 10, 15, 0.75);
     border: 1px solid rgba(0, 240, 255, 0.35);
     border-radius: 14px;
     box-shadow:
