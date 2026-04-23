@@ -387,26 +387,60 @@ function typewrite() {
 typewrite();
 
 // ===== PARALLAX HERO LAYERS =====
+// Horizontal drift is handled by pure CSS (background-position keyframes).
+// JS only applies gentle VERTICAL parallax tied to scroll + mouse Y,
+// so it stacks with CSS drift without fighting it.
 const heroLayers = document.querySelectorAll('.hero-layer');
-window.addEventListener('scroll', () => {
+const heroSection = document.querySelector('.hero-section');
+
+let mouseParallaxY = 0;
+
+function applyHeroParallax() {
     const scrollY = window.scrollY;
+    // Only apply parallax while the hero is in view-ish range (first ~120vh)
+    const maxScroll = window.innerHeight * 1.2;
+    const clamped = Math.min(scrollY, maxScroll);
     heroLayers.forEach(layer => {
         const speed = parseFloat(layer.dataset.speed) || 0;
-        layer.style.transform = `translateY(${scrollY * speed}px)`;
+        const y = clamped * speed + mouseParallaxY * speed * 30;
+        layer.style.transform = `translate3d(0, ${y}px, 0)`;
     });
-});
+}
 
-const heroSection = document.querySelector('.hero-section');
+window.addEventListener('scroll', applyHeroParallax, { passive: true });
+
 if (heroSection) {
     heroSection.addEventListener('mousemove', (e) => {
         const rect = heroSection.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        heroLayers.forEach(layer => {
-            const speed = parseFloat(layer.dataset.speed) || 0;
-            layer.style.transform = `translate(${x * speed * 30}px, ${y * speed * 30 + window.scrollY * speed}px)`;
-        });
+        mouseParallaxY = (e.clientY - rect.top) / rect.height - 0.5;
+        applyHeroParallax();
     });
+    heroSection.addEventListener('mouseleave', () => {
+        mouseParallaxY = 0;
+        applyHeroParallax();
+    });
+}
+
+// ===== HUD RAIL SCROLL SPY =====
+// Highlight the left-rail link whose section is currently in view.
+const railLinks = document.querySelectorAll('.rail-link[data-section]');
+if (railLinks.length) {
+    const sectionMap = new Map();
+    railLinks.forEach(link => {
+        const id = link.getAttribute('data-section');
+        const sec = document.getElementById(id);
+        if (sec) sectionMap.set(sec, link);
+    });
+    const spy = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                railLinks.forEach(l => l.classList.remove('active'));
+                const link = sectionMap.get(entry.target);
+                if (link) link.classList.add('active');
+            }
+        });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    sectionMap.forEach((_, sec) => spy.observe(sec));
 }
 
 // ===== SCROLL ANIMATIONS (Custom AOS) =====

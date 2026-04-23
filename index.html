@@ -118,7 +118,7 @@
     <!-- Particle canvas -->
     <canvas id="particleCanvas"></canvas>
 
-    <!-- Navigation -->
+    <!-- Navigation (mobile hamburger + top-bar fallback) -->
     <nav class="navbar" id="navbar">
         <div class="nav-logo">
             <span class="logo-text">&lt;AK/&gt;</span>
@@ -142,14 +142,77 @@
         </div>
     </nav>
 
+    <!-- ===== HUD CHROME (desktop) ===== -->
+    <div class="hud-chrome" aria-hidden="false">
+        <!-- Corner logo (top-left) -->
+        <a href="#home" class="hud-logo" aria-label="Home">
+            <span class="hud-logo-text">&lt;AK/&gt;</span>
+        </a>
+
+        <!-- Top-center pill nav (primary CTAs) -->
+        <nav class="hud-pill" aria-label="Primary">
+            <a href="assets/files/Anshik_Kewat_CV.pdf" download>Resume</a>
+            <a href="https://github.com/Dream-Debugger-Dev" target="_blank" rel="noopener">GitHub</a>
+            <a href="#contact">Hire Me</a>
+        </nav>
+
+        <!-- Top-right avatar tile -->
+        <a href="#about" class="hud-avatar" aria-label="About me">
+            <img src="assets/images/portfolio-pic.jpeg" alt="Anshik Kewat">
+        </a>
+
+        <!-- Left vertical section rail -->
+        <nav class="hud-rail hud-rail-left" aria-label="Sections">
+            <a href="#home" class="rail-link active" data-section="home">
+                <i class="fas fa-home"></i><span>Home</span>
+            </a>
+            <a href="#about" class="rail-link" data-section="about">
+                <i class="fas fa-user"></i><span>About</span>
+            </a>
+            <a href="#skills" class="rail-link" data-section="skills">
+                <i class="fas fa-code"></i><span>Skills</span>
+            </a>
+            <a href="#projects" class="rail-link" data-section="projects">
+                <i class="fas fa-rocket"></i><span>Projects</span>
+            </a>
+            <a href="#experience" class="rail-link" data-section="experience">
+                <i class="fas fa-briefcase"></i><span>Experience</span>
+            </a>
+            <a href="#contact" class="rail-link" data-section="contact">
+                <i class="fas fa-envelope-open-text"></i><span>Contact</span>
+            </a>
+        </nav>
+
+        <!-- Right vertical social rail -->
+        <nav class="hud-rail hud-rail-right" aria-label="Social">
+            <a href="https://www.linkedin.com/in/anshik-kewat-8637harru/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://github.com/Dream-Debugger-Dev" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/anshik_8637" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+            <a href="#" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="mailto:Anshikkewat25@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        </nav>
+    </div>
+
     <!-- ===== HERO SECTION ===== -->
     <section id="home" class="hero-section">
         <div class="hero-bg-layers">
-            <div class="hero-layer layer-stars" data-speed="0.1"></div>
-            <div class="hero-layer layer-nebula" data-speed="0.2"></div>
-            <div class="hero-layer layer-city-back" data-speed="0.3"></div>
-            <div class="hero-layer layer-city-front" data-speed="0.5"></div>
-            <div class="hero-layer layer-glow" data-speed="0.4"></div>
+            <!-- Layer 0: static deep-space gradient backdrop (no drift) -->
+            <div class="hero-layer layer-deep" data-speed="0"></div>
+            <!-- Layer 1: slow large nebulae (barely moving) -->
+            <div class="hero-layer layer-nebula" data-speed="0.05" data-drift="slow"></div>
+            <!-- Layer 2: mid-distance star cluster + small planets -->
+            <div class="hero-layer layer-stars" data-speed="0.15" data-drift="medium"></div>
+            <!-- Layer 3: closer fast asteroids / debris streaks -->
+            <div class="hero-layer layer-asteroids" data-speed="0.35" data-drift="fast"></div>
+            <!-- Layer 4: foreground shooting stars (fastest) -->
+            <div class="hero-layer layer-streaks" data-speed="0.6" data-drift="hyper"></div>
+            <!-- Layer 5: ambient bottom glow (subtle scroll-only) -->
+            <div class="hero-layer layer-glow" data-speed="0.2"></div>
+            <!-- Spaceship that occasionally crosses the scene -->
+            <div class="hero-ship" aria-hidden="true">
+                <i class="fas fa-rocket"></i>
+            </div>
         </div>
         <div class="hero-content">
             <div class="hero-badge">
