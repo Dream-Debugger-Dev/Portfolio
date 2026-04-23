@@ -290,20 +290,57 @@ img { max-width: 100%; display: block; }
         radial-gradient(ellipse 28px 5px at 3500px 380px, rgba(0, 240, 255, 0.15) 0%, transparent 80%);
 }
 
-/* Layer 4 — hyper-speed streaks (shooting stars — longer, brighter) */
+/* Layer 4 — shooting stars (thin bright streaks at slight angles) */
 .layer-streaks {
-    background-repeat: repeat-x;
-    background-size: 6000px 100%;
-    background-image:
-        /* Long bright streaks */
-        linear-gradient(175deg, transparent 0%, transparent 49%, rgba(0, 240, 255, 0.7) 49.5%, rgba(0, 240, 255, 0.7) 50%, transparent 50.5%, transparent 100%),
-        linear-gradient(172deg, transparent 0%, transparent 49%, rgba(255, 0, 229, 0.5) 49.5%, rgba(255, 0, 229, 0.5) 50%, transparent 50.5%, transparent 100%),
-        linear-gradient(178deg, transparent 0%, transparent 49%, rgba(139, 92, 246, 0.6) 49.5%, rgba(139, 92, 246, 0.6) 50%, transparent 50.5%, transparent 100%),
-        linear-gradient(174deg, transparent 0%, transparent 49%, rgba(0, 240, 255, 0.5) 49.5%, rgba(0, 240, 255, 0.5) 50%, transparent 50.5%, transparent 100%),
-        linear-gradient(176deg, transparent 0%, transparent 49%, rgba(255, 255, 255, 0.4) 49.5%, rgba(255, 255, 255, 0.4) 50%, transparent 50.5%, transparent 100%);
-    background-size: 400px 600px, 350px 500px, 500px 700px, 300px 550px, 450px 650px;
-    background-position: 200px 0, 1200px 50px, 2500px -30px, 3800px 20px, 5000px -10px;
-    opacity: 0.7;
+    background: transparent;
+    overflow: hidden;
+}
+
+.layer-streaks::before,
+.layer-streaks::after {
+    content: '';
+    position: absolute;
+    border-radius: 50px;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* Shooting star 1 — cyan */
+.layer-streaks::before {
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.9), transparent);
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.6), 0 0 20px rgba(0, 240, 255, 0.3);
+    top: 18%;
+    left: -150px;
+    animation: shoot1 6s 2s infinite;
+}
+
+/* Shooting star 2 — pink */
+.layer-streaks::after {
+    width: 90px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 0, 229, 0.85), transparent);
+    box-shadow: 0 0 8px rgba(255, 0, 229, 0.5), 0 0 20px rgba(255, 0, 229, 0.25);
+    top: 55%;
+    left: -120px;
+    animation: shoot2 8s 5s infinite;
+}
+
+@keyframes shoot1 {
+    0%   { left: -150px; top: 18%; opacity: 0; transform: rotate(-8deg); }
+    5%   { opacity: 1; }
+    40%  { opacity: 1; }
+    60%  { left: 110%; top: 35%; opacity: 0; transform: rotate(-8deg); }
+    100% { left: 110%; top: 35%; opacity: 0; }
+}
+
+@keyframes shoot2 {
+    0%   { left: -120px; top: 55%; opacity: 0; transform: rotate(-5deg); }
+    5%   { opacity: 1; }
+    35%  { opacity: 1; }
+    55%  { left: 110%; top: 42%; opacity: 0; transform: rotate(-5deg); }
+    100% { left: 110%; top: 42%; opacity: 0; }
 }
 
 /* Layer 5 — ambient bottom glow */
@@ -582,7 +619,23 @@ img { max-width: 100%; display: block; }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
 /* ===== SECTIONS COMMON ===== */
-.section { padding: 100px 0; position: relative; z-index: 1; }
+.section {
+    padding: 100px 0;
+    position: relative;
+    z-index: 1;
+    /* Subtle starfield that continues the space theme across all sections */
+    background-image:
+        radial-gradient(1px 1px at 15% 25%, rgba(0, 240, 255, 0.3), transparent),
+        radial-gradient(1px 1px at 35% 65%, rgba(139, 92, 246, 0.25), transparent),
+        radial-gradient(1px 1px at 55% 15%, rgba(255, 255, 255, 0.2), transparent),
+        radial-gradient(1px 1px at 75% 80%, rgba(255, 0, 229, 0.2), transparent),
+        radial-gradient(1px 1px at 90% 40%, rgba(0, 240, 255, 0.25), transparent),
+        radial-gradient(1px 1px at 5% 90%, rgba(244, 114, 182, 0.2), transparent),
+        radial-gradient(1px 1px at 45% 50%, rgba(255, 255, 255, 0.15), transparent),
+        radial-gradient(1px 1px at 65% 35%, rgba(0, 240, 255, 0.2), transparent),
+        radial-gradient(1px 1px at 25% 75%, rgba(139, 92, 246, 0.2), transparent),
+        radial-gradient(1px 1px at 85% 10%, rgba(255, 255, 255, 0.25), transparent);
+}
 
 .section-title {
     font-family: var(--font-display);

@@ -434,17 +434,8 @@ if (heroSection) {
     });
 }
 
-// ===== PAUSE PARTICLE CANVAS WHEN OFF-SCREEN =====
-// The particle canvas is a perf hog during scroll. Pause it once hero is gone.
-const particleCanvas = document.getElementById('particleCanvas');
-if (particleCanvas && heroSection) {
-    const canvasObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            particleCanvas.style.display = entry.isIntersecting ? '' : 'none';
-        });
-    }, { threshold: 0 });
-    canvasObserver.observe(heroSection);
-}
+// ===== PARTICLE CANVAS — always visible across all sections =====
+// (Canvas is position:fixed in CSS, covering the full viewport.)
 
 // ===== HUD RAIL SCROLL SPY =====
 const railLinks = document.querySelectorAll('.rail-link[data-section]');
