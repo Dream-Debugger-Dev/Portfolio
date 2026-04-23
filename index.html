@@ -65,6 +65,53 @@
     <!-- Skip to content (accessibility) -->
     <a href="#home" class="skip-to-content">Skip to main content</a>
 
+    <!-- ===== INTRO / BOOT SEQUENCE ===== -->
+    <div class="intro-overlay" id="introOverlay" role="dialog" aria-label="Loading experience" aria-live="polite">
+        <button class="intro-skip" id="introSkip" aria-label="Skip intro">SKIP <i class="fas fa-forward"></i></button>
+
+        <div class="intro-stage">
+            <!-- Arc line that draws in first -->
+            <svg class="intro-arc" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <defs>
+                    <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#8b5cf6"/>
+                        <stop offset="50%" stop-color="#00f0ff"/>
+                        <stop offset="100%" stop-color="#ff00e5"/>
+                    </linearGradient>
+                </defs>
+                <path class="intro-arc-path" d="M 50 400 Q 500 80 950 400" fill="none" stroke="url(#arcGrad)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+
+            <!-- Visor frame -->
+            <div class="intro-visor" aria-hidden="true">
+                <div class="visor-corner tl"></div>
+                <div class="visor-corner tr"></div>
+                <div class="visor-corner bl"></div>
+                <div class="visor-corner br"></div>
+
+                <div class="visor-status">
+                    <span class="status-dot"></span>
+                    <span class="status-text" id="introStatus">SYSTEM BOOT // NEURAL LINK INITIALIZING</span>
+                </div>
+
+                <div class="visor-bar">
+                    <div class="visor-bar-fill" id="introBarFill"></div>
+                    <div class="visor-bar-ticks"></div>
+                </div>
+
+                <div class="visor-readout">
+                    <span class="visor-percent"><span id="introPercent">0</span><small>%</small></span>
+                    <span class="visor-hex" id="introHex">0x00</span>
+                </div>
+
+                <div class="visor-brand">&lt;AK/&gt;</div>
+            </div>
+
+            <!-- Zoom target used when the visor engulfs the screen -->
+            <div class="intro-zoom-mask" aria-hidden="true"></div>
+        </div>
+    </div>
+
     <!-- Cursor glow -->
     <div class="cursor-glow" id="cursorGlow"></div>
 

@@ -1707,3 +1707,336 @@ button:focus {
     .testimonial-card { padding: 24px; }
     .btn-submit { align-self: stretch; }
 }
+
+
+/* ============================================================
+   INTRO / BOOT SEQUENCE — VR HUD visor reveal
+   ============================================================ */
+.intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+}
+.intro-overlay.is-done {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease 0.1s;
+}
+.intro-overlay.is-hidden { display: none; }
+
+body.intro-active { overflow: hidden; }
+
+.intro-skip {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 5;
+    background: rgba(0, 240, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    color: var(--neon-cyan);
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: introFade 0.4s ease 1.2s forwards;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.intro-skip:hover { background: rgba(0, 240, 255, 0.15); border-color: var(--neon-cyan); }
+.intro-skip i { font-size: 0.7rem; }
+
+.intro-stage {
+    position: relative;
+    width: min(900px, 92vw);
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center;
+    will-change: transform, filter;
+}
+
+/* Phase 1 — arc draws in */
+.intro-arc {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.7));
+}
+.intro-arc-path {
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    animation: introArcDraw 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.intro-overlay.phase-2 .intro-arc-path { animation: introArcFade 0.4s ease forwards; }
+
+@keyframes introArcDraw {
+    0%   { stroke-dashoffset: 1600; opacity: 0; }
+    10%  { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes introArcFade {
+    to { opacity: 0; }
+}
+
+/* Phase 2 — visor materializes */
+.intro-visor {
+    position: relative;
+    width: 92%;
+    height: 78%;
+    border-radius: 50% / 46%;
+    border: 2px solid transparent;
+    background:
+        radial-gradient(ellipse at center, rgba(139, 92, 246, 0.08) 0%, rgba(0, 240, 255, 0.04) 40%, transparent 70%),
+        linear-gradient(135deg, rgba(10, 10, 15, 0.9), rgba(22, 22, 31, 0.9));
+    box-shadow:
+        inset 0 0 80px rgba(0, 240, 255, 0.08),
+        inset 0 0 30px rgba(139, 92, 246, 0.1),
+        0 0 40px rgba(0, 240, 255, 0.15);
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    transform: scale(0.85);
+    animation: introVisorIn 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.75s forwards;
+    padding: 40px 80px;
+}
+.intro-visor::before,
+.intro-visor::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan), var(--neon-magenta)) border-box;
+    -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    padding: 2px;
+    pointer-events: none;
+    animation: introVisorPulse 2.4s ease-in-out infinite;
+}
+.intro-visor::after { filter: blur(8px); opacity: 0.55; }
+
+@keyframes introVisorIn {
+    0%   { opacity: 0; transform: scale(0.8); filter: blur(6px); }
+    60%  { opacity: 1; filter: blur(0); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+@keyframes introVisorPulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.6; }
+}
+
+/* Corner brackets */
+.visor-corner {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border: 2px solid var(--neon-cyan);
+    opacity: 0;
+    animation: introFade 0.4s ease 1.1s forwards;
+}
+.visor-corner.tl { top: 14px; left: 14px; border-right: none; border-bottom: none; }
+.visor-corner.tr { top: 14px; right: 14px; border-left: none; border-bottom: none; }
+.visor-corner.bl { bottom: 14px; left: 14px; border-right: none; border-top: none; }
+.visor-corner.br { bottom: 14px; right: 14px; border-left: none; border-top: none; }
+
+/* Status text */
+.visor-status {
+    position: absolute;
+    top: 18%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: var(--neon-cyan);
+    white-space: nowrap;
+    opacity: 0;
+    animation: introFade 0.4s ease 1.3s forwards;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--neon-magenta);
+    box-shadow: 0 0 10px var(--neon-magenta);
+    animation: introDotBlink 0.8s ease-in-out infinite;
+}
+@keyframes introDotBlink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+}
+
+/* Loading bar */
+.visor-bar {
+    position: relative;
+    width: 70%;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    border-radius: 2px;
+    overflow: hidden;
+    opacity: 0;
+    animation: introFade 0.4s ease 1.4s forwards;
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.6);
+}
+.visor-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-pink));
+    background-size: 200% 100%;
+    box-shadow: 0 0 14px var(--neon-cyan), 0 0 30px rgba(255, 0, 229, 0.4);
+    transition: width 0.12s linear;
+    animation: introBarShimmer 1.2s linear infinite;
+}
+@keyframes introBarShimmer {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+.visor-bar-ticks {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        90deg,
+        transparent 0 9.9%,
+        rgba(0, 0, 0, 0.4) 9.9% 10%
+    );
+    pointer-events: none;
+}
+
+/* Percentage readout */
+.visor-readout {
+    position: absolute;
+    bottom: 18%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    font-family: var(--font-display);
+    opacity: 0;
+    animation: introFade 0.4s ease 1.5s forwards;
+}
+.visor-percent {
+    font-size: 2rem;
+    font-weight: 800;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--neon-cyan);
+    letter-spacing: 2px;
+}
+.visor-percent small {
+    font-size: 1rem;
+    margin-left: 4px;
+    opacity: 0.7;
+}
+.visor-hex {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--neon-purple);
+    letter-spacing: 3px;
+    opacity: 0.8;
+}
+
+/* Brand in visor */
+.visor-brand {
+    position: absolute;
+    bottom: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--neon-cyan);
+    letter-spacing: 4px;
+    opacity: 0;
+    animation: introFade 0.4s ease 1.1s forwards;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+}
+
+@keyframes introFade {
+    to { opacity: 1; }
+}
+
+/* Phase 3 — zoom in (visor engulfs) */
+.intro-overlay.phase-zoom .intro-stage {
+    animation: introZoom 0.85s cubic-bezier(0.7, 0, 0.9, 0.3) forwards;
+}
+.intro-overlay.phase-zoom .intro-visor {
+    animation: introVisorBlowout 0.85s cubic-bezier(0.7, 0, 0.9, 0.3) forwards;
+}
+
+@keyframes introZoom {
+    0%   { transform: scale(1); filter: blur(0); }
+    60%  { transform: scale(4); filter: blur(4px); }
+    100% { transform: scale(18); filter: blur(14px); opacity: 0; }
+}
+@keyframes introVisorBlowout {
+    0%   { box-shadow: inset 0 0 80px rgba(0, 240, 255, 0.08), inset 0 0 30px rgba(139, 92, 246, 0.1), 0 0 40px rgba(0, 240, 255, 0.15); }
+    50%  { box-shadow: inset 0 0 200px rgba(0, 240, 255, 0.8), inset 0 0 120px rgba(255, 0, 229, 0.5), 0 0 120px rgba(0, 240, 255, 0.6); }
+    100% { box-shadow: inset 0 0 400px rgba(255, 255, 255, 0.9), 0 0 200px #fff; background: #fff; }
+}
+
+/* Scanline / flicker overlay inside visor */
+.intro-zoom-mask {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent 0 3px,
+        rgba(0, 240, 255, 0.03) 3px 4px
+    );
+    mix-blend-mode: overlay;
+    animation: introScan 6s linear infinite;
+    opacity: 0.6;
+}
+@keyframes introScan {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 200px; }
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+    .intro-stage { aspect-ratio: 4 / 3; }
+    .visor-status { font-size: 0.6rem; letter-spacing: 2px; top: 20%; }
+    .visor-bar { width: 78%; height: 10px; }
+    .visor-percent { font-size: 1.4rem; }
+    .visor-hex { font-size: 0.7rem; }
+    .visor-brand { font-size: 0.75rem; }
+    .visor-corner { width: 18px; height: 18px; }
+}
+
+/* Reduced motion — collapse intro to a soft fade */
+@media (prefers-reduced-motion: reduce) {
+    .intro-overlay { animation: introFade 0.3s ease forwards; }
+    .intro-arc-path,
+    .intro-visor,
+    .visor-corner,
+    .visor-status,
+    .visor-bar,
+    .visor-readout,
+    .visor-brand { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .intro-overlay.phase-zoom .intro-stage,
+    .intro-overlay.phase-zoom .intro-visor { animation: none !important; }
+}

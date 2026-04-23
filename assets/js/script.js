@@ -1,3 +1,85 @@
+// ===== INTRO / BOOT SEQUENCE =====
+(function runIntro() {
+    const overlay = document.getElementById('introOverlay');
+    if (!overlay) return;
+
+    const skipBtn   = document.getElementById('introSkip');
+    const barFill   = document.getElementById('introBarFill');
+    const percentEl = document.getElementById('introPercent');
+    const hexEl     = document.getElementById('introHex');
+    const statusEl  = document.getElementById('introStatus');
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const alreadyShown   = sessionStorage.getItem('introShown') === '1';
+
+    document.body.classList.add('intro-active');
+
+    // Reveal body now (hidden by inline style) — overlay sits above it
+    document.body.style.opacity = '1';
+
+    // Fast path: skip if already shown this session or reduced motion
+    if (alreadyShown || prefersReduced) {
+        finish(true);
+        return;
+    }
+
+    const statusLines = [
+        'SYSTEM BOOT // NEURAL LINK INITIALIZING',
+        'CALIBRATING VISOR // HUD SYNC',
+        'LOADING PORTFOLIO MATRIX',
+        'ENGAGING INTERFACE'
+    ];
+
+    let progress = 0;
+    let zoomTriggered = false;
+    const totalDuration = 2200;         // bar fills over ~2.2s
+    const stepInterval  = 35;
+    const increment     = 100 / (totalDuration / stepInterval);
+
+    const ticker = setInterval(() => {
+        progress = Math.min(100, progress + increment + Math.random() * 1.6);
+        const rounded = Math.floor(progress);
+        if (barFill)   barFill.style.width = progress + '%';
+        if (percentEl) percentEl.textContent = rounded;
+        if (hexEl)     hexEl.textContent = '0x' + rounded.toString(16).toUpperCase().padStart(2, '0');
+        if (statusEl)  statusEl.textContent = statusLines[Math.min(statusLines.length - 1, Math.floor(progress / 28))];
+
+        if (progress >= 100 && !zoomTriggered) {
+            zoomTriggered = true;
+            clearInterval(ticker);
+            setTimeout(triggerZoom, 200);
+        }
+    }, stepInterval);
+
+    function triggerZoom() {
+        overlay.classList.add('phase-zoom');
+        setTimeout(() => finish(false), 900);
+    }
+
+    function finish(instant) {
+        sessionStorage.setItem('introShown', '1');
+        document.body.classList.remove('intro-active');
+        if (instant) {
+            overlay.classList.add('is-hidden');
+        } else {
+            overlay.classList.add('is-done');
+            setTimeout(() => overlay.classList.add('is-hidden'), 700);
+        }
+    }
+
+    // Skip controls
+    function skip() {
+        if (zoomTriggered) return;
+        zoomTriggered = true;
+        clearInterval(ticker);
+        triggerZoom();
+    }
+    if (skipBtn) skipBtn.addEventListener('click', skip);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') skip();
+    }, { once: false });
+})();
+
 // ===== CURSOR GLOW (OPTIMIZED) =====
 const cursorGlow = document.getElementById('cursorGlow');
 let mouseX = 0, mouseY = 0;
@@ -498,7 +580,9 @@ if (contactForm) {
     });
 }
 
-// ===== SMOOTH REVEAL ON LOAD =====
+// ===== SMOOTH REVEAL ON LOAD (fallback — intro normally handles this) =====
 window.addEventListener('load', () => {
-    document.body.style.opacity = '1';
+    if (document.body.style.opacity !== '1') {
+        document.body.style.opacity = '1';
+    }
 });
