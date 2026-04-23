@@ -1,22 +1,53 @@
-# 🚀 Anshik Kewat | Portfolio Website
+# 🚀 Anshik Kewat | Portfolio
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-blue?style=for-the-badge&logo=github)](https://dream-debugger-dev.github.io/Portfolio/)
+[![GitHub Pages](https://img.shields.io/badge/Live%20Site-dream--debugger--dev.github.io-00f0ff?style=for-the-badge&logo=github)](https://dream-debugger-dev.github.io/Portfolio/)
 
-Welcome to the polished personal portfolio for **Anshik Kewat** — a high-impact static website with neon visuals, smooth UI motion, and responsive layout.
+Personal portfolio of **Anshik Kewat** — Aspiring Full Stack Developer, Python Automation Enthusiast & QC Specialist at Amazon. Built with HTML, CSS & JavaScript featuring an interstellar space theme with cosmic parallax, neon glow effects, and smooth animations.
 
-> **Goal:** showcase career transformation, project work, and developer skills in a bold, modern portfolio.
+> Dream it. Debug it. Deploy it.
 
 ---
 
-## ✨ Highlights
+## ✨ Features
 
-- **Fully responsive landing page** with desktop and mobile-first design.
-- **Animated hero experience** featuring particles, glow effects, and typewriter text.
-- **Smooth section reveal** using scroll-triggered animations and custom AOS-style fade-ins.
-- **Interactive skill bars & counters** that animate when visible.
-- **Dynamic navigation** with sticky header, active link tracking, and mobile overlay menu.
-- **Contact form flow** using Formspree for easy form submission without backend.
-- **Organized asset structure** with favicons stored under `assets/favicons/`.
+### HUD Chrome (Techfest-inspired)
+- **Corner logo** (top-left) with neon-bordered frame
+- **Pill navigation** (top-center) — Resume / GitHub / Hire Me
+- **Avatar tile** (top-right) with portrait photo
+- **Left vertical rail** — section navigation with scroll-spy active state
+- **Right vertical rail** — social media icons (LinkedIn, GitHub, Instagram, X, YouTube, Email)
+- Falls back to hamburger menu on mobile (≤900px)
+
+### Interstellar Parallax Hero
+- **6 depth layers** drifting at different speeds (right-to-left):
+  - Deep space backdrop (static)
+  - Large nebulae (barely moving)
+  - Star clusters with glowing planets and halos
+  - Asteroids with glow trails
+  - Shooting stars (thin animated streaks)
+  - Ambient bottom glow
+- **Animated spaceship** crossing the scene with exhaust trail
+- **Mouse-reactive** vertical parallax depth
+- **Cosmic particles & shooting stars** visible across all sections
+
+### Cinematic Boot Sequence
+- Animated SVG arc, visor frame, and loading bar intro
+- Progress ticker with hex readout and status lines
+- Skip button + Escape key support
+- Session-aware (shows once per session)
+- Respects `prefers-reduced-motion`
+
+### Content Sections
+- **About** — personal intro with portrait
+- **Skills & Arsenal** — animated skill bars and tech stack
+- **Experience** — timeline layout
+- **GitHub Stats** — 3-card grid (stats, languages, streak) with balanced alignment
+- **Projects** — 5 project cards (Bulk Image Resizer, Address Labels, Resume Builder, Anshik Digital Solutions, On Time Home Cleaning)
+- **Education & Certifications**
+- **Services**
+- **Testimonials** — slider
+- **Blog** — article cards
+- **Contact** — form via Formspree
 
 ---
 
@@ -28,58 +59,47 @@ Portfolio/
 ├── README.md
 ├── .gitignore
 └── assets/
-    ├── css/
-    │   └── style.css
-    ├── js/
-    │   └── script.js
+    ├── css/style.css
+    ├── js/script.js
     ├── images/
-    ├── files/
-    │   └── Anshik_Kewat_CV.pdf
+    ├── files/Anshik_Kewat_CV.pdf
     └── favicons/
-        ├── apple-touch-icon.png
-        ├── favicon-16x16.png
-        ├── favicon-32x32.png
-        ├── favicon-512x512.png
-        └── favicon.ico
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **HTML5** — clean semantic markup
-- **CSS3** — modern visual design, gradients, responsive layout
-- **JavaScript** — animations, canvas effects, form logic
-- **Formspree** — serverless contact form handling
+| Layer | Tech |
+|-------|------|
+| Markup | HTML5 (semantic) |
+| Styling | CSS3 (custom properties, grid, keyframe animations, gradients) |
+| Interactivity | Vanilla JavaScript (canvas particles, parallax, scroll-spy, typewriter) |
+| Fonts | Orbitron · Rajdhani · Inter (Google Fonts) |
+| Icons | Font Awesome 6.5 |
+| Forms | Formspree (serverless) |
+| Hosting | GitHub Pages |
 
 ---
 
-## 🚀 Deployment
+## 🚀 Live Preview
 
-This portfolio is ready for static hosting.
-
-### Recommended hosts
-
-- **GitHub Pages** — ideal for this repo
-- **Netlify**
-- **Vercel**
-
-### Live preview
-
-[https://dream-debugger-dev.github.io/Portfolio/](https://dream-debugger-dev.github.io/Portfolio/)
-
----
-
-## 💡 Notes
-
-- The **favicons** are now centralized in `assets/favicons/`.
-- The HTML is already configured to reference the updated favicon paths.
-- The page uses **Formspree** endpoint for contact submissions.
+**[https://dream-debugger-dev.github.io/Portfolio/](https://dream-debugger-dev.github.io/Portfolio/)**
 
 ---
 
 ## 📩 Connect
 
-- **GitHub:** [Dream-Debugger-Dev](https://github.com/Dream-Debugger-Dev)
-- **LinkedIn:** [anshik-kewat-8637harru](https://www.linkedin.com/in/anshik-kewat-8637harru/)
-- **Instagram:** [anshik_8637](https://www.instagram.com/anshik_8637)
+| Platform | Link |
+|----------|------|
+| GitHub | [Dream-Debugger-Dev](https://github.com/Dream-Debugger-Dev) |
+| LinkedIn | [anshik-kewat-8637harru](https://www.linkedin.com/in/anshik-kewat-8637harru/) |
+| Instagram | [anshik_8637](https://www.instagram.com/anshik_8637) |
+| X (Twitter) | [Dream_debugger](https://x.com/Dream_debugger) |
+| YouTube | [dreamdebuggerdev](https://youtube.com/@dreamdebuggerdev) |
+
+---
+
+## 📄 License
+
+© 2026 Anshik Kewat. All rights reserved.
