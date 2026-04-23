@@ -848,6 +848,7 @@ img { max-width: 100%; display: block; }
 .project-overlay {
     position: absolute;
     inset: 0;
+    z-index: 2;
     background: rgba(10,10,15,0.85);
     display: flex;
     align-items: center;
@@ -901,6 +902,56 @@ img { max-width: 100%; display: block; }
 .coming-soon-content { text-align: center; color: var(--text-muted); }
 .coming-soon-content i { font-size: 2.5rem; margin-bottom: 8px; display: block; color: var(--neon-purple); }
 .coming-soon-content span { font-family: var(--font-heading); font-size: 1rem; }
+
+/* Icon-based project visuals (used when no screenshot available) */
+.project-vis {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(0,240,255,0.06));
+}
+
+.project-vis::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(0,240,255,0.18), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(255,0,229,0.14), transparent 45%);
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.project-vis-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px;
+}
+
+.project-vis-content i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 12px rgba(0,240,255,0.35));
+}
+
+.project-vis-content span {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+}
+
+/* Per-project accent tints */
+.resume-vis   { background: linear-gradient(135deg, rgba(0,240,255,0.12),  rgba(139,92,246,0.06)); }
+.digital-vis  { background: linear-gradient(135deg, rgba(255,0,229,0.12),  rgba(0,240,255,0.06)); }
+.cleaning-vis { background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(255,0,229,0.06)); }
+
+.project-card:hover .project-vis::after { opacity: 0.5; }
 
 /* ===== EDUCATION ===== */
 .education-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
